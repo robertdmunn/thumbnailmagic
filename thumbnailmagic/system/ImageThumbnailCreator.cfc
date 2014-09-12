@@ -9,14 +9,12 @@ component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 		local.image = imageRead( path = arguments.filepath & arguments.filename );
 		local.fileInfo = imageInfo( local.image );
 
+		//base options
 		local.height = 200;
+
+		if( not isNull( arguments.options ) )
+			structAppend( local, setOptions( arguments.options ) );	
 		
-		if( not isNull( arguments.options ) ){
-			for( local.key in arguments.options ){
-				local[ key ] =  arguments.options[ key ]; 
-			} 
-		}
-				
 		local.heightPercent = ( local.height / local.fileInfo.height  ) * 100;
 		if( isNull( local.width )){
 			local.widthPercent = local.heightPercent;

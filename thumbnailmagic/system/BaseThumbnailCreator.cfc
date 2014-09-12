@@ -34,5 +34,15 @@ component{
 
 	public string function getcfServer(){
 		return variables.instance.cfserver;
-	}		
+	}
+	
+	private struct function setOptions( required struct options ){
+		local.options = {};
+		if( not isNull( arguments.options ) ){
+			for( local.key in arguments.options ){
+				local.options[ local.key ] =  arguments.options[ local.key ]; 
+			}
+		}
+		return local.options;
+	}
 }

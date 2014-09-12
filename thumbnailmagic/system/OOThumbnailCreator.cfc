@@ -12,11 +12,8 @@ component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 		local.pages = 1;
 		local.overwrite = true;
 
-		if( not isNull( arguments.options ) ){
-			for( local.key in arguments.options ){
-				local[ key ] =  arguments.options[ key ]; 
-			} 
-		}
+		if( not isNull( arguments.options ) )
+			structAppend( local, setOptions( arguments.options ) );
 		
 		// courtesy J Harvey http://webdevsourcerer.com/index.cfm/blog/post/slug/tutorial-detecting-coldfusion-railo-or-bluedragon-with-cfscript
 		//mods to simplify

@@ -37,7 +37,7 @@ component {
 		local.args.height = arguments.height;
 		local.args.width = arguments.width;
 			
-		local.thumbnailcreator = _getCreator( creatorType = "image" );
+		local.thumbnailcreator = getCreator( creatorType = "image" );
  
 		switch( trim( local.contentType ) ){
 			case "image/gif":
@@ -50,7 +50,7 @@ component {
 				break;
 
 			case "application/pdf":
-				local.creator =  _getCreator( creatorType = "PDF" );
+				local.creator =  getCreator( creatorType = "PDF" );
 				local.args.filepath = getThumbnailPath();
 				local.filename = local.creator.createThumbnail( argumentcollection = arguments );
 				break;
@@ -62,7 +62,7 @@ component {
 			case "video/mpg":
 			case "video/mpeg":
 			case "video/ogg":
-				local.creator =  _getCreator( creatorType = "video" );
+				local.creator =  getCreator( creatorType = "video" );
 				local.args.filepath = getThumbnailPath();
 				local.filename = local.creator.createThumbnail( argumentcollection = arguments );
 				break;			
@@ -121,7 +121,7 @@ component {
 		};
 	}
 	
-	private any function _getCreator( string creatorType ){
+	public any function getCreator( string creatorType ){
 		return variables.instance.creator[ creatorType ];
 	}
 	
