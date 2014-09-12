@@ -32,7 +32,6 @@ var webshotOptions = {
 	}
 };
 
-
 args.forEach(function(val) {
     arg = val.split("=");
     if (arg[1] !== undefined) {
@@ -69,13 +68,6 @@ console.log("Optional arguments: ");
 console.log(optMap);
 	*/
 
-function getCurrentDirectoryName() { 
-	var fullPath = __dirname; 
-	var path = fullPath.split('/'); 
-	var cwd = path[path.length-1]; 
-	return cwd; 
-} 
-
 //default output folder
 if( optMap['p'] === undefined ){
 	optMap['p'] =  __dirname + '/tmp/';
@@ -88,20 +80,5 @@ webshot(argMap['h'], optMap['p'] + argMap['h'] + '.png', webshotOptions, functio
 	console.log('OK');
 });
 
-/*
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-var chunks = 0;
-process.stdin.on('data', function(chunk) {
-    //process.stdout.write('data: ' + chunk);
-    chunks = chunks + 1;
-    console.log("Chunk: bytes: " + chunk.length + ", lines: " + chunk.split("\n").length);
-
-});
-process.stdin.on('end', function() {
-   console.log("stdin read " + chunks + " chunks.");
-   process.stdout.write('end');
-
-}); */
 
 

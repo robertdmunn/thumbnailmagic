@@ -6,7 +6,7 @@ component {
 		return this;
 	}
 
-	public array function createThumbnail( required string filepath, required string filename, string newfilename, struct options ){
+	public array function createThumbnail( required string filepath, required string filename, struct options ){
 		throw( type="custom", message="Not implemented in the base class." );
 	}
 	
@@ -26,6 +26,25 @@ component {
 			}
 		}
 		return local.options;
+	}
+	
+	private string function _verifyFilename( required string filepath, required string filename, required string overwrite ){
+		
+		if( arguments.overwrite eq "overwrite" ){
+			return arguments.filename;		
+		}else if( arguments.overwrite eq "rename" and fileExists( arguments.filepath & arguments.filename ) ){
+			while( arguments.ok eq false ){
+				local.filename = arguments.filename & local.i;
+				if( NOT fileExists( local.filename )){
+					local.ok = true;
+				}else{
+					local.i++;
+				}
+			}
+			return local.filename;
+		}else if( arguments.overwrite eq "error"  and fileExists( arguments.filepath & arguments.filename ) ){
+			throw( message="Thumbnail already exists.");
+		}
 	}
 	
 	

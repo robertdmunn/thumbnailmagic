@@ -5,16 +5,20 @@ component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 		return this;
 	}
 
-	public array function createThumbnail( required string filepath, required string filename, string newfilename, struct options  ){
+	public array function createThumbnail( required string filepath, required string filename, struct options  ){
 		local.image = imageRead( path = arguments.filepath & arguments.filename );
 		local.fileInfo = imageInfo( local.image );
 
 		//base options
 		local.height = 200;
-
+		local.overwrite = "overwrite";
+		local.filename = arguments.filename;
+		
 		if( not isNull( arguments.options ) )
 			structAppend( local, setOptions( arguments.options ) );	
-		
+
+		local.filename = _verifyFilename( filepath = arguments.filepath, filename = local.filename, overwrite = local.overwrite );
+
 		local.heightPercent = ( local.height / local.fileInfo.height  ) * 100;
 		if( isNull( local.width )){
 			local.widthPercent = local.heightPercent;
@@ -24,13 +28,7 @@ component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 
 		imageResize( name="local.image", width="#local.widthPercent#%", height="#local.heightPercent#%");
 
-		if( not isNull( arguments.newFilename ) ){
-			imageWrite(name="local.image", destination="#getGlobals().getThumbnailPath()##arguments.newFilename#");
-			return [ arguments.newFilename ];
-		}else{
-			imageWrite(name="local.image", destination="#getGlobals().getThumbnailPath()##arguments.filename#");
-			return [ arguments.filename ];
-		}	
+		imageWrite(name="local.image", destination="#getGlobals().getThumbnailPath()##local.filename#");
+		return [ local.filename ];
 	}
 }
-

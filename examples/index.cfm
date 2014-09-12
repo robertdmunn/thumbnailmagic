@@ -3,11 +3,9 @@
 	<head>
 	<title>Thumbnail Magic</title>
 	
-	
-		
 	</head>
 	<body>
-	Examples of thumbnail functionality:<br/><br/>
+	<cfoutput>Examples of thumbnail functionality:<br/><br/></cfoutput>
 	
 	<cfscript>
 		service = createObject( "thumbnailmagic.ThumbnailService" ).init( thumbnailPath = expandPath( "./tiles/" ) );

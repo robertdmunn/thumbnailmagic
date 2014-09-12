@@ -14,7 +14,6 @@
 	<cffunction name="createThumbnail" access="public" returntype="array">
 		<cfargument name="filepath" type="string" required="true" />
 		<cfargument name="filename" type="string" required="true" />
-		<cfargument name="newfilename" type="string" required="false" />
 		<cfargument name="options" type="struct" required="false" />
 		
 		<cfscript>

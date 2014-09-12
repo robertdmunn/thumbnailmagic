@@ -11,7 +11,7 @@ component {
 		return this;
 	}
 
-	public array function createThumbnail( string filepath, string filename, uri, numeric height, numeric width ){
+	public array function createThumbnail( string filepath, string filename, string uri, struct options ){
 		//Javaloader is causing a Xerces conflict in the Tika library, so Tika must be copied to the CFML server lib path for now
 		//local.file = createObject( "java", "java.lang.String" ).init( arguments.filepath & arguments.filename );
 		//local.path = createObject( "java", "java.nio.file.Paths" ).get( arguments.filepath, [arguments.filename] );
@@ -24,8 +24,13 @@ component {
 		//local.Tika = local.loader.create( "org.apache.tika.Tika" ).init();/
 		
 		local.args = {};
-		local.args.height = arguments.height;
-		local.args.width = arguments.width;
+		if( not isNull( arguments.options )){
+		if( structkeyexists( arguments.options, "height" ) )
+			local.args.height = arguments.options.height;
+		if( structkeyexists( arguments.options, "width" ) )
+			local.args.width = arguments.options.width;
+		}
+		
 		//flag to use 
 		if( not isNull( arguments.uri ) ){
 			local.contentType = "uri";
@@ -34,7 +39,7 @@ component {
 			local.contentType = _getContentType( filepath = arguments.filepath, filename = arguments.filename );
 			local.args.filepath = arguments.filepath;
 		}
-		writeoutput( local.contentType );	
+
 		local.thumbnailcreator = getCreator( creatorType = "image" );
  
 		switch( trim( local.contentType ) ){
@@ -116,7 +121,7 @@ component {
 	public void function setGlobals( required thumbnailmagic.system.Globals globals ){
 		variables.instance.globals = arguments.globals;
 	}
-	
+
 	public thumbnailmagic.system.Globals function getGlobals(){
 		return variables.instance.globals;
 	}	

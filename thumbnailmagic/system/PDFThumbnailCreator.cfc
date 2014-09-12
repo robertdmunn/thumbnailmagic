@@ -12,23 +12,24 @@
 	<cffunction name="createThumbnail" access="public" returntype="array">
 		<cfargument name="filepath" type="string" required="true" />
 		<cfargument name="filename" type="string" required="true" />
-		<cfargument name="newfilename" type="string" required="false" />
 		<cfargument name="options" type="struct" required="false" />
 		
 		<cfscript>
+			//default options
+			local.scale = 50;
+			local.pages = 1;
+			local.overwrite = "overwrite";
+	
+			if( not isNull( arguments.options ) )
+				structAppend( local, setOptions( arguments.options ) );		
+
 			if( right( arguments.filename, 4 ) eq ".pdf" ){
 				local.basefileName = left( arguments.filename, len( arguments.filename ) - 4 );
 			}else{
 				local.basefileName = arguments.filename;
 			}
-	
-			//default options
-			local.scale = 50;
-			local.pages = 1;
-			local.overwrite = true;
-	
-			if( not isNull( arguments.options ) )
-				structAppend( local, setOptions( arguments.options ) );		
+			
+			local.overwrite = ( local.overwrite eq "overwrite" ? true : false );
 		</cfscript>
 		
 		<!---  once vendor support for cfpdf, cfexecute, etc. in cfscript is normalized we can convert the components to script, but for now we need tags to simplify the code --->
