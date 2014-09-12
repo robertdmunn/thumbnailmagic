@@ -14,7 +14,8 @@ component {
 		} 
 
 		setcfServer( local.cf_server );
-
+		_setCreators( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() );
+		
 		return this;
 	}
 
@@ -36,8 +37,8 @@ component {
 		local.args.height = arguments.height;
 		local.args.width = arguments.width;
 			
-		local.thumbnailcreator = createObject( "thumbnailmagic.system.ImageThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() );
-
+		local.thumbnailcreator = _getCreator( creatorType = "image" );
+ 
 		switch( trim( local.contentType ) ){
 			case "image/gif":
 			case "image/png":
@@ -49,7 +50,7 @@ component {
 				break;
 
 			case "application/pdf":
-				local.creator = createObject( "thumbnailmagic.system.PDFThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() );
+				local.creator =  _getCreator( creatorType = "PDF" );
 				local.args.filepath = getThumbnailPath();
 				local.filename = local.creator.createThumbnail( argumentcollection = arguments );
 				break;
@@ -61,7 +62,7 @@ component {
 			case "video/mpg":
 			case "video/mpeg":
 			case "video/ogg":
-				local.creator = createObject( "thumbnailmagic.system.VideoThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() );
+				local.creator =  _getCreator( creatorType = "video" );
 				local.args.filepath = getThumbnailPath();
 				local.filename = local.creator.createThumbnail( argumentcollection = arguments );
 				break;			
@@ -111,6 +112,18 @@ component {
 	public string function getcfServer(){
 		return variables.instance.cfserver;
 	}		
+	
+	private void function _setCreators( required string thumbnailPath, required string os, required string cfServer ){
+		variables.instance.creator = {
+			video : createObject( "thumbnailmagic.system.VideoThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() ),
+			image : createObject( "thumbnailmagic.system.ImageThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() ),
+			pdf : createObject( "thumbnailmagic.system.PDFThumbnailCreator" ).init( thumbnailPath = getThumbnailPath(), os = getOS(), cfserver = getcfServer() )
+		};
+	}
+	
+	private any function _getCreator( string creatorType ){
+		return variables.instance.creator[ creatorType ];
+	}
 	
 	private string function _getContentType( required string filepath, required string filename ){
 		//probeContentType is broken in OS X
