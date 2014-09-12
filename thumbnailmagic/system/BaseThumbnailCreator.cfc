@@ -1,39 +1,21 @@
-component{
+component {
 
-	public thumbnailmagic.system.BaseThumbnailCreator function init( required string thumbnailPath, required string os, required string cfServer ){
+	public thumbnailmagic.system.BaseThumbnailCreator function init( thumbnailmagic.system.Globals globals ){
 		variables.instance = {};
-		setThumbnailPath( arguments.thumbnailPath );
-		setOS( arguments.os );
-		setcfServer( arguments.cfServer );
+		setGlobals( arguments.globals );
 		return this;
 	}
 
 	public array function createThumbnail( required string filepath, required string filename, string newfilename, struct options ){
 		throw( type="custom", message="Not implemented in the base class." );
 	}
-
-	public void function setThumbnailPath( path ){
-		variables.instance.thumbnailPath = arguments.path;
+	
+	public void function setGlobals( required thumbnailmagic.system.Globals globals ){
+		variables.instance.globals = arguments.globals;
 	}
-
-	public string function getThumbnailPath(){
-		return variables.instance.thumbnailPath;
-	}
-
-	public void function setOS( os ){
-		variables.instance.os = arguments.os;
-	}
-
-	public string function getOS(){
-		return variables.instance.os;
-	}	
-
-	public void function setcfServer( cfserver ){
-		variables.instance.cfserver = arguments.cfserver;
-	}
-
-	public string function getcfServer(){
-		return variables.instance.cfserver;
+	
+	public thumbnailmagic.system.Globals function getGlobals(){
+		return variables.instance.globals;
 	}
 	
 	private struct function setOptions( required struct options ){
@@ -45,4 +27,6 @@ component{
 		}
 		return local.options;
 	}
+	
+	
 }

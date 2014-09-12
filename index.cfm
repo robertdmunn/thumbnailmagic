@@ -7,16 +7,34 @@
 		
 	</head>
 	<body>
-	Sample pdf thumbnail:<br/>
-	http://en.wikibooks.org/wiki/Open_Source
-		
-	<cfscript>
-		service = createObject( "thumbnailmagic.ThumbnailService" ).init( thumbnailPath = expandPath( "./test/tiles/" ) );
-		thumbnail = service.createThumbnail( filepath = expandPath( "./test/" ), filename = "Open Source.pdf", options = { pages : "1,3,5-6" } );
-	</cfscript>
-	<cfoutput>
-		<cfdump var="#thumbnail#"/>
-	</cfoutput>
+	
+	Thumbnail Magic is a CFML-based tool for generating thumbnails from a variety of sources:
+	
+	<ul>
+		<li>
+		images
+		</li>
+		<li>
+		text files
+		</li>
+		<li>
+		videos
+		</li>
+		<li>
+		PDFs
+		</li>
+		<li>
+		OpenOffice documents
+		</li>
+		<li>
+		web pages
+		</li>
+	</ul>
+	
+	<p>
+	See the <a href="/examples/index.cfm">examples page</a> for examples of how to generate thumbnails for each source.
+	</p>
+	
 	</body>
 	
 

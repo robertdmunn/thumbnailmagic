@@ -2,9 +2,7 @@
 
 
 	<cffunction name="init" access="public" returntype="thumbnailmagic.system.VideoThumbnailCreator">
-		<cfargument name="thumbnailPath" type="string" required="true" />
-		<cfargument name="os" type="string" required="true" />
-		<cfargument name="cfServer" type="string" required="true" />
+		<cfargument name="globals" type="thumbnailmagic.system.Globals" required="true" />
 		
 		<cfscript>
 			super.init( argumentcollection = arguments );
@@ -31,7 +29,7 @@
 		</cfscript>
 		<cfexecute
 			name="#_getffmpeg()#"
-			arguments="-i #arguments.filepath##arguments.filename# -r #local.rate# -vframes #local.frames# -ss #local.start# #getThumbnailpath()##arguments.filename#-%d.jpg"
+			arguments="-i #arguments.filepath##arguments.filename# -r #local.rate# -vframes #local.frames# -ss #local.start# #getGlobals().getThumbnailpath()##arguments.filename#-%d.jpg"
 			timeout="#local.timeout#"
 			errorVariable="errorOut" />
 		<cfscript>
@@ -47,7 +45,7 @@
 
 	<cffunction name="_setffmpeg" access="private" returntype="void">
 		<cfscript>
-			if( getOS() contains "Windows" ){
+			if( getGlobals().getOS() contains "Windows" ){
 				variables.instance.ffmpeg = "ffmpeg.exe";
 			}else{
 				variables.instance.ffmpeg = "ffmpeg";

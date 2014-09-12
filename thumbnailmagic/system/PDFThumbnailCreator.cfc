@@ -1,9 +1,7 @@
 <cfcomponent extends="thumbnailmagic.system.BaseThumbnailCreator">
 
 	<cffunction name="init" access="public" returntype="thumbnailmagic.system.PDFThumbnailCreator">
-		<cfargument name="thumbnailPath" type="string" required="true" />
-		<cfargument name="os" type="string" required="true" />
-		<cfargument name="cfServer" type="string" required="true" />
+		<cfargument name="globals" type="thumbnailmagic.system.Globals" required="true" />
 		
 		<cfscript>
 			super.init( argumentcollection = arguments );
@@ -34,7 +32,7 @@
 		</cfscript>
 		
 		<!---  once vendor support for cfpdf, cfexecute, etc. in cfscript is normalized we can convert the components to script, but for now we need tags to simplify the code --->
-		<cfpdf action="thumbnail" destination="#getThumbnailPath()#" source="#arguments.filepath##arguments.filename#" scale="#local.scale#" pages="#local.pages#" overwrite="#local.overwrite#"/>
+		<cfpdf action="thumbnail" destination="#getGlobals().getThumbnailPath()#" source="#arguments.filepath##arguments.filename#" scale="#local.scale#" pages="#local.pages#" overwrite="#local.overwrite#"/>
 		
 		<cfscript>
 			

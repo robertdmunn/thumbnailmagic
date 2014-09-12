@@ -1,6 +1,6 @@
 component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 
-	public thumbnailmagic.system.ImageThumbnailCreator function init( required string thumbnailPath, required string os, required string cfServer ){
+	public thumbnailmagic.system.ImageThumbnailCreator function init( thumbnailmagic.system.Globals globals ){
 		super.init( argumentcollection = arguments );
 		return this;
 	}
@@ -25,10 +25,10 @@ component extends="thumbnailmagic.system.BaseThumbnailCreator" {
 		imageResize( name="local.image", width="#local.widthPercent#%", height="#local.heightPercent#%");
 
 		if( not isNull( arguments.newFilename ) ){
-			imageWrite(name="local.image", destination="#getThumbnailPath()##arguments.newFilename#");
+			imageWrite(name="local.image", destination="#getGlobals().getThumbnailPath()##arguments.newFilename#");
 			return [ arguments.newFilename ];
 		}else{
-			imageWrite(name="local.image", destination="#getThumbnailPath()##arguments.filename#");
+			imageWrite(name="local.image", destination="#getGlobals().getThumbnailPath()##arguments.filename#");
 			return [ arguments.filename ];
 		}	
 	}
