@@ -1,56 +1,38 @@
-<cfcomponent>
+component{
 
-	<cffunction name="init" access="public" returntype="thumbnailmagic.system.BaseThumbnailCreator">
-		<cfargument name="thumbnailPath" type="string" required="true" />
-		<cfargument name="os" type="string" required="true" />
-		<cfargument name="cfServer" type="string" required="true" />
+	public thumbnailmagic.system.BaseThumbnailCreator function init( required string thumbnailPath, required string os, required string cfServer ){
+		variables.instance = {};
+		setThumbnailPath( arguments.thumbnailPath );
+		setOS( arguments.os );
+		setcfServer( arguments.cfServer );
+		return this;
+	}
 
-		<cfscript>
-			variables.instance = {};
-			setThumbnailPath( arguments.thumbnailPath );
-			setOS( arguments.os );
-			setcfServer( arguments.cfServer );
-			return this;
-		</cfscript>	
-	</cffunction>
+	public array function createThumbnail( required string filepath, required string filename, string newfilename, struct options ){
+		throw( type="custom", message="Not implemented in the base class." );
+	}
 
-	<cffunction name="createThumbnail" access="public" returntype="array">
-		<cfargument name="filepath" type="string" required="true" />
-		<cfargument name="filename" type="string" required="true" />
-		<cfargument name="newfilename" type="string" required="false" />
-		<cfargument name="options" type="struct" required="false" />
-		<cfscript>
-			throw( type="custom", message="Not implemented in the base class." );
-		</cfscript>
-	
-	</cffunction>
+	public void function setThumbnailPath( path ){
+		variables.instance.thumbnailPath = arguments.path;
+	}
 
-	<cffunction name="setThumbnailPath" access="public" returntype="void">
-		<cfargument name="path" type="string" required="true" />
-		<cfset variables.instance.thumbnailPath = arguments.path />
-	</cffunction>
- 
-	<cffunction name="getThumbnailPath" access="public" returntype="string">
-		<cfreturn variables.instance.thumbnailPath />
-	</cffunction>
+	public string function getThumbnailPath(){
+		return variables.instance.thumbnailPath;
+	}
 
-	<cffunction name="setOS" access="public" returntype="void">
-		<cfargument name="os" type="string" required="true" />
-		<cfset variables.instance.os = arguments.path />
-	</cffunction>
- 
-	<cffunction name="getOS" access="public" returntype="string">
-		<cfreturn variables.instance.os />
-	</cffunction>
+	public void function setOS( os ){
+		variables.instance.os = arguments.os;
+	}
 
-	<cffunction name="setcfServer" access="public" returntype="void">
-		<cfargument name="cfserver" type="string" required="true" />
-		<cfset variables.instance.cfserver = arguments.cfserver />
-	</cffunction>
- 
-	<cffunction name="getcfServer" access="public" returntype="string">
-		<cfreturn variables.instance.cfserver />
-	</cffunction>	
-		
-</cfcomponent>
+	public string function getOS(){
+		return variables.instance.os;
+	}	
 
+	public void function setcfServer( cfserver ){
+		variables.instance.cfserver = arguments.cfserver;
+	}
+
+	public string function getcfServer(){
+		return variables.instance.cfserver;
+	}		
+}
