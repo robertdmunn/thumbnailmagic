@@ -1,5 +1,18 @@
 component {
 
+	/*
+	 * ThumbnailMagic 
+	 * 
+	 * copyright 2014 Robert Munn
+	 * 
+	 * version: 0.9
+	 * 
+	 * author: Robert Munn robert.d.munn@gmail.com
+	 * 
+	 * license: MIT license
+	 * 
+	 **/
+
 	public thumbnailmagic.ThumbnailService function init( required string thumbnailPath ){
 		variables.instance = {};
 

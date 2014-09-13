@@ -10,6 +10,8 @@ A CFML-based tool for generating thumbnails from a variety of sources.
     * OpenOffice documents
     * web pages
 
+###Version: 0.9
+
 See the examples page for examples of how to generate thumbnails for each source.
 
 ###Dependencies
