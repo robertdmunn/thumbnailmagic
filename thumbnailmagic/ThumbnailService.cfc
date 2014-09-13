@@ -24,13 +24,12 @@ component {
 		//local.Tika = local.loader.create( "org.apache.tika.Tika" ).init();/
 		
 		local.args = {};
-		if( not isNull( arguments.options )){
-		if( structkeyexists( arguments.options, "height" ) )
-			local.args.height = arguments.options.height;
-		if( structkeyexists( arguments.options, "width" ) )
-			local.args.width = arguments.options.width;
-		}
-		
+		// OO doc option
+		local.args.extract = true;
+
+		if( not isNull( arguments.options ) )
+			structAppend( local.args, setOptions( arguments.options ) );	
+					
 		//flag to use 
 		if( not isNull( arguments.uri ) ){
 			local.contentType = "uri";
@@ -75,7 +74,7 @@ component {
 			case "application/vnd.oasis.opendocument.presentation":
 			case "application/vnd.oasis.opendocument.spreadsheet":
 			case "application/vnd.oasis.opendocument.text":
-				if( isNull( arguments.options.pages ) ) {
+				if( local.args.extract ) {
 					local.creator =  getCreator( creatorType = "oo" );
 					return local.creator.createThumbnail( argumentcollection = arguments );
 					break;
@@ -183,4 +182,14 @@ component {
 		}
 		return local.contentType;
 	}
+
+	private struct function setOptions( required struct options ){
+		local.options = {};
+		if( not isNull( arguments.options ) ){
+			for( local.key in arguments.options ){
+				local.options[ local.key ] =  arguments.options[ local.key ]; 
+			}
+		}
+		return local.options;
+	}	
 }

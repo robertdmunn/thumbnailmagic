@@ -104,9 +104,25 @@ for images:
    	     
 for OpenOffice documents, spreadsheets, presentations, and graphics:
 
+for thumbnail extraction from document (low quality):
+
     oothumbnail =  service.createThumbnail( 
     	filepath = expandPath( "./" ), 
     	filename = "openoffice.odt" );
+
+for thumbnail generation (high quality):
+
+    oothumbnail =  service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "openoffice.odt",
+    	options = {extract : false } );
+
+with multiple pages:
+
+    oothumbnail =  service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "grimms_fairy_tales.doc", 
+    	options = { pages : "1,50-52,213" }   );
 
 for PDFs:
 
