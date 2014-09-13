@@ -17,11 +17,13 @@
 		<cfargument name="options" type="struct" required="false" />
 		
 		<cfscript>
-			
-			local.filename = ( isNull( arguments.newfilename ) ? arguments.filename : arguments.newfilename );
-		
+			//base options
+			local.filename = arguments.filename;
+						
 			if( not isNull( arguments.options ) )
 				structAppend( local, setOptions( arguments.options ) );
+
+			local.filename = _verifyFilename( filepath = arguments.filepath, filename = local.filename, overwrite = local.overwrite );
 		</cfscript>
 		
 		

@@ -16,7 +16,7 @@
 		
 		<cfscript>
 			//default options
-			local.scale = 50;
+			local.scale = 30;
 			local.pages = 1;
 			local.overwrite = "overwrite";
 	

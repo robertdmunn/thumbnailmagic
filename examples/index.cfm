@@ -8,7 +8,7 @@
 	<cfoutput>Examples of thumbnail functionality:<br/><br/></cfoutput>
 	
 	<cfscript>
-		service = createObject( "thumbnailmagic.ThumbnailService" ).init( thumbnailPath = expandPath( "./tiles/" ) );
+		service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ) );
 	
 	</cfscript>
 
