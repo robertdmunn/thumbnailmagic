@@ -19,6 +19,7 @@ ThumbnailMagic depends on the following external libraries that you must install
     * JDK 7
     * ffmpeg - used for rendering video thumbnails
     * NodeJS - used for rendering web page thumbnails.
+    * OpenOffice - used for rendering thumbnails of MSOffice documents and multi-page or high quality thumbnails of OpenOffice documents
 
 ThumbnailMagic packages the following external dependencies with the distribution:
 
@@ -53,14 +54,19 @@ Optional
    Type ffmpeg at a command prompt. If ffmpeg is installed and mapped on your PATH, you will see something like the following: 
 
    $ ffmpeg version 2.3.2 Copyright (c) 2000-2014 the FFmpeg developers
-   
+ 
+5. Verify OpenOffice is installed for MSOffice/OpenOffice multi-page thumbnail support
+
+   a. Copy the jars from /lib/jodconverters into your CFML engine's classpath. 
+	 
+   b. Current configuration runs OpenOffice service on localhost port 8100. Adjust settings in /thumbnailmagic/system/oolib.cfc.
+
 ###Usage
 
 1. Instantiate the service:
 
    service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ) );
    
-    
 Generating thumbnails:
 
    // pass either a filepath and filename or a uri
@@ -152,9 +158,9 @@ Copy the /examples folder to a webroot somewhere and access /examples/index.cfm 
 ### License
 
 		(The MIT License)
-		
+
 		Copyright (c) 2014 Robert Munn
-		
+
 		Permission is hereby granted, free of charge, to any person obtaining a copy of
 		this software and associated documentation files (the 'Software'), to deal in
 		the Software without restriction, including without limitation the rights to
