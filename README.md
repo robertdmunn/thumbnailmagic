@@ -66,7 +66,7 @@ Generating thumbnails:
    // pass either a filepath and filename or a uri
    // options is an optional argument in the form of a struct
    
-   options = { 
+       options = { 
        
        height : <number of pixels> (default: 200), // height of resulting thumbnail 
        width : <number of pixels>,  // width of resulting thumbnail, leave out to scale width in proportion to height 
@@ -93,26 +93,38 @@ Generating thumbnails:
 
 for URIs:
 
-   urithumbnail = service.createThumbnail( uri = "www.wikipedia.org" );
-   
-	
+    urithumbnail = service.createThumbnail( uri = "www.wikipedia.org" );
+
 for images:
 
-   imgthumbnail = service.createThumbnail( filepath = expandPath( "./" ), filename = "sailrock.jpg", options = {} );
+    imgthumbnail = service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "sailrock.jpg", 
+    	options = {} );
    	     
 for OpenOffice documents, spreadsheets, presentations, and graphics:
 
-   oothumbnail =  service.createThumbnail( filepath = expandPath( "./" ), filename = "openoffice.odt" );
+    oothumbnail =  service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "openoffice.odt" );
 
 for PDFs:
 
-   	pdfthumbnail = service.createThumbnail( filepath = expandPath( "./" ), filename = "Open Source.pdf", options = { pages : "1,3,5-6" } );
+   	pdfthumbnail = service.createThumbnail( 
+   		filepath = expandPath( "./" ), 
+   		filename = "Open Source.pdf", 
+   		options = { pages : "1,3,5-6" } );
    	
 for plain text files:
 
-   textthumbnail = service.createThumbnail( filepath = expandPath( "./" ), filename = "mitlicense.txt" );	   	
+    textthumbnail = service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "mitlicense.txt" );	   	
 
 for videos:
 
-   videothumbnail = service.createThumbnail( filepath = expandPath( "./" ), filename = "spurting_plasma.mp4", options = { rate : 1, frames : 1, start: "00:00:10" } );
+    videothumbnail = service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "spurting_plasma.mp4", 
+    	options = { rate : 1, frames : 1, start: "00:00:10" } );
 
