@@ -12,12 +12,19 @@
 	
 	</cfscript>
 
-	<cfinclude template="image.cfm"/>
+ 	<cfinclude template="image.cfm"/>
+	<cfflush>
 	<cfinclude template="oo.cfm"/>
+	<cfflush>
 	<cfinclude template="pdf.cfm"/>
+	<cfflush>
 	<cfinclude template="text.cfm"/>
+	<cfflush>
 	<cfinclude template="uri.cfm"/>
+	<cfflush>
 	<cfinclude template="video.cfm"/>
+	<cfflush> 
+	<cfinclude template="oomultiple.cfm"/>
 
 	
 	</body>

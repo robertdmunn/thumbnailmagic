@@ -75,9 +75,25 @@ component {
 			case "application/vnd.oasis.opendocument.presentation":
 			case "application/vnd.oasis.opendocument.spreadsheet":
 			case "application/vnd.oasis.opendocument.text":
+				if( isNull( arguments.options.pages ) ) {
+					local.creator =  getCreator( creatorType = "oo" );
+					return local.creator.createThumbnail( argumentcollection = arguments );
+					break;
+				}
+			case "application/msword":
 				local.creator =  getCreator( creatorType = "oo" );
-				return local.creator.createThumbnail( argumentcollection = arguments );
-				break;
+				// we need to generate a pdf to make thumbnails
+				local.overwrite = true;
+				if( NOT isNull( arguments.options.overwrite ) )
+					local.overwrite = ( local.overwrite eq "overwrite" ? true : false );	
+				arguments.filename = listlast( local.creator.convert( filepath = arguments.filepath, filename = arguments.filename, overwrite = local.overwrite ), "\/" );
+				arguments.filepath = getGlobals().getThumbnailPath();
+				// re-call the function sending in the pdf as the argument
+
+				local.results = createThumbnail( argumentcollection = arguments );
+				fileDelete( arguments.filepath & arguments.filename );
+				return local.results;
+				break;	
 			case "video/mp4":
 			case "video/avi":
 			case "video/mov":
@@ -130,6 +146,10 @@ component {
 		variables.instance.PDFCreator = createObject( "thumbnailmagic.system.PDFCreator" ).init( globals = getGlobals() );
 	}
 
+	public thumbnailmagic.system.PDFCreator function getPDFCreator(){
+		return variables.instance.PDFCreator;
+	}
+	
 	public thumbnailmagic.system.HTTPUtil function getHTTPUtil(){
 		return variables.instance.HTTPUtil;
 	}	
@@ -138,10 +158,6 @@ component {
 		variables.instance.HTTPUtil = createObject( "thumbnailmagic.system.HTTPUtil" ).init( globals = getGlobals() );
 	}
 
-	public thumbnailmagic.system.PDFCreator function getPDFCreator(){
-		return variables.instance.PDFCreator;
-	}
-	
 	private void function _setCreators(){
 		variables.instance.creator = {
 			video : createObject( "thumbnailmagic.system.VideoThumbnailCreator" ).init( globals = getGlobals() ),

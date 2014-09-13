@@ -4,6 +4,7 @@
 	<cffunction name="init" access="public" output="false" returntype="thumbnailmagic.system.PDFCreator">
 		<cfargument name="globals" type="thumbnailmagic.system.Globals" required="true" />
 		<cfset variables.instance = {} />
+
 		<cfset setGlobals( arguments.globals ) />
 		<cfreturn this />
 	</cffunction>
@@ -35,4 +36,5 @@
 	<cffunction name="getGlobals" access="public" returntype="thumbnailmagic.system.Globals">
 		<cfreturn variables.instance.globals />
 	</cffunction>
+
 </cfcomponent>
