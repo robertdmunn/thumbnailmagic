@@ -128,3 +128,7 @@ for videos:
     	filename = "spurting_plasma.mp4", 
     	options = { rate : 1, frames : 1, start: "00:00:10" } );
 
+
+### Demo
+
+Copy the /examples folder to a webroot somewhere and access /examples/index.cfm to see ThumbnailMagic in action.
