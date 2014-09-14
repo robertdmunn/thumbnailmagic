@@ -16,10 +16,12 @@
 		<cfset local.id = createUUID() />
 		<cfdocument filename="#getGlobals().getThumbnailPath()##local.id#.pdf" format="PDF" overwrite="true">
 		<cfoutput>
-			<cfif arguments.contenttype eq "text/plain">
-			<pre>#arguments.source#</pre>
-			<cfelse>
+			<cfif arguments.contenttype eq "text/html">
 			#source#
+			<cfelseif arguments.contenttype contains "xml">
+			<pre>#htmleditformat(source)#</pre>
+			<cfelse>
+			<pre>#arguments.source#</pre>
 			</cfif>
 		</cfoutput>
 		</cfdocument>

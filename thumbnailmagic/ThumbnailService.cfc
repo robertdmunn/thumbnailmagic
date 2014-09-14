@@ -13,7 +13,7 @@ component {
 	 * 
 	 **/
 
-	public thumbnailmagic.ThumbnailService function init( required string thumbnailPath ){
+	public thumbnailmagic.ThumbnailService function init( string thumbnailPath ){
 		variables.instance = {};
 
 		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = arguments.thumbnailPath ) );
@@ -68,6 +68,10 @@ component {
 				break;
 			case "text/plain":
 			case "text/html":
+			case "text/css":
+			case "text/csv":
+			case "text/xml":
+			case "application/xml":
 				// make a pdf and continue on to thumbnail the pdf
 				//if we're using a uri we already have the source
 				if( isNull( local.source ) ) local.source = fileRead( arguments.filepath & arguments.filename );
@@ -93,6 +97,8 @@ component {
 					break;
 				}
 			case "application/msword":
+			case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+			case "application/vnd.ms-excel":
 				local.creator =  getCreator( creatorType = "oo" );
 				// we need to generate a pdf to make thumbnails
 				local.overwrite = true;

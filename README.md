@@ -68,7 +68,19 @@ Optional
 1. Instantiate the service:
 
    service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ) );
+
+2. Configuring for Coldbox
+
+   If you are using Wirebox, just refer to ThumbnailServiceColdbox in your Wirebox configuration:
+	 
+	  map( "ThumbnailService" ).to( "thumbnailmagic.ThumbnailServiceColdbox" )
+	     .asSingleton();	
+
+   You only need a thumbnailpath setting in your Coldbox configuration:
    
+   			thumbnailPath = "<local path to thumbnails>" 
+
+  
 Generating thumbnails:
 
    // pass either a filepath and filename or a uri
