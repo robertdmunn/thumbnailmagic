@@ -73,8 +73,8 @@ Optional
 
    If you are using Wirebox, just refer to ThumbnailServiceColdbox in your Wirebox configuration:
 	 
-	  map( "ThumbnailService" ).to( "thumbnailmagic.ThumbnailServiceColdbox" )
-	     .asSingleton();	
+	      map( "ThumbnailService" ).to( "thumbnailmagic.ThumbnailServiceColdbox" )
+	         .asSingleton();	
 
    You only need a thumbnailpath setting in your Coldbox configuration:
    
