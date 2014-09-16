@@ -13,13 +13,13 @@ component {
 	 * 
 	 **/
 
-	public thumbnailmagic.ThumbnailService function init( string thumbnailPath ){
+	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options default = {} ){
 		variables.instance = {};
 
 		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = arguments.thumbnailPath ) );
 		setPDFCreator();
 		setHTTPUtil();
-		_setCreators();
+		_setCreators( options = arguments.options );
 		
 		return this;
 	}
@@ -176,11 +176,11 @@ component {
 		variables.instance.HTTPUtil = createObject( "thumbnailmagic.system.HTTPUtil" ).init( globals = getGlobals() );
 	}
 
-	private void function _setCreators(){
+	private void function _setCreators( struct options ){
 		variables.instance.creator = {
 			video : createObject( "thumbnailmagic.system.VideoThumbnailCreator" ).init( globals = getGlobals() ),
 			image : createObject( "thumbnailmagic.system.ImageThumbnailCreator" ).init( globals = getGlobals()  ),
-			oo : createObject( "thumbnailmagic.system.OOThumbnailCreator" ).init( globals = getGlobals()  ),
+			oo : createObject( "thumbnailmagic.system.OOThumbnailCreator" ).init( globals = getGlobals(), options = arguments.options ),
 			pdf : createObject( "thumbnailmagic.system.PDFThumbnailCreator" ).init( globals = getGlobals()  )
 		};
 	}

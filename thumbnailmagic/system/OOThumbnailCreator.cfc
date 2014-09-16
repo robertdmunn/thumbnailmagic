@@ -3,10 +3,14 @@
 
 	<cffunction name="init" access="public" returntype="thumbnailmagic.system.OOThumbnailCreator">
 		<cfargument name="globals" type="thumbnailmagic.system.Globals" required="true" />
+		<!--- these arguments are being passed by ThumbnailService as a struct called options but are not named --->
+		<!--- <cfargument name="pathToOO" required="false" hint="Path to soffice binary" />
+		<cfargument name="OOHost" required="false" default="localhost" hint="OpenOffice host server"/>
+		<cfargument name="OOPort" required="false" default="8100" hint="OpenOffice host port"/>		 --->
 		
 		<cfscript>
 			super.init( argumentcollection = arguments );
-			_setOOLib();
+			_setOOLib( argumentcollection = arguments.options );
 			return this;
 		</cfscript>
 	</cffunction>
@@ -61,7 +65,10 @@
 	</cffunction>
 	
 	<cffunction name="_setOOLib" access="private" returntype="void">
-		<cfset variables.instance.oolib = createObject( 'thumbnailmagic.system.oolib' ) />
+		<cfargument name="pathToOO" required="false" hint="Path to soffice binary" />
+		<cfargument name="OOHost" required="false" default="localhost" hint="OpenOffice host server"/>
+		<cfargument name="OOPort" required="false" default="8100" hint="OpenOffice host port"/>		
+		<cfset variables.instance.oolib = createObject( 'thumbnailmagic.system.oolib' ).init( pathToOO = arguments.pathToOO, OOHost = arguments.ooHost, OOPort = arguments.OOPort ) />
 	</cffunction>
 	
 	<cffunction name="_getOOLib" access="private" returntype="thumbnailmagic.system.oolib">

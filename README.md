@@ -76,10 +76,12 @@ Optional
 	      map( "ThumbnailService" ).to( "thumbnailmagic.ThumbnailServiceColdbox" )
 	         .asSingleton();	
 
-   You only need a thumbnailpath setting in your Coldbox configuration:
+   You only need these setting in your Coldbox configuration:
    
-   			thumbnailPath = "<local path to thumbnails>" 
-
+				thumbnailPath = "<local path to thumbnails>", 
+				pathToOO = "<local path to soffice binary>", // OS X - /Applications/OpenOffice.app/Contents/MacOS/soffice
+				ooHost = "localhost",
+				ooPort = 8100
   
 Generating thumbnails:
 

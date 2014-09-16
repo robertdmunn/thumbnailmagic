@@ -1,6 +1,8 @@
 component extends="thumbnailmagic.ThumbnailService"{
 	property name="thumbNailPath" inject="coldbox:setting:thumbNailPath";
-
+	property name="pathToOO" inject="coldbox:setting:pathToOO";
+	property name="ooHost" inject="coldbox:setting:ooHost";
+	property name="ooPort" inject="coldbox:setting:ooPort";		
 	/*
 	 * ThumbnailMagic 
 	 * 
@@ -14,7 +16,7 @@ component extends="thumbnailmagic.ThumbnailService"{
 	 * 
 	 **/
 
-	public thumbnailmagic.ThumbnailService function init( string thumbnailPath ){
+	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options default = {} ){
 		variables.instance = {};
 
 		return this;
@@ -25,7 +27,7 @@ component extends="thumbnailmagic.ThumbnailService"{
 		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = variables.thumbnailPath ) );
 		setPDFCreator();
 		setHTTPUtil();
-		_setCreators();
+		_setCreators( options = variables );
 	}
 
 }
