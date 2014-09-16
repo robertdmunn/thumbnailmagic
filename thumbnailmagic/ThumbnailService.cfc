@@ -5,7 +5,7 @@ component {
 	 * 
 	 * copyright 2014 Robert Munn
 	 * 
-	 * version: 0.9
+	 * version: 0.9.1
 	 * 
 	 * author: Robert Munn robert.d.munn@gmail.com
 	 * 
