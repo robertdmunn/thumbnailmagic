@@ -10,7 +10,7 @@ A CFML-based tool for generating thumbnails from a variety of sources.
     * OpenOffice documents
     * web pages
 
-###Version: 0.9.1
+###Version: 0.1.0
 
 See the examples page for examples of how to generate thumbnails for each source.
 
@@ -22,6 +22,7 @@ ThumbnailMagic depends on the following external libraries that you must install
     * ffmpeg - used for rendering video thumbnails
     * NodeJS - used for rendering web page thumbnails.
     * OpenOffice - used for rendering thumbnails of MSOffice documents and multi-page or high quality thumbnails of OpenOffice documents
+    * jodConverter - Java package used to connect to OpenOffice
 
 ThumbnailMagic packages the following external dependencies with the distribution:
 
@@ -61,7 +62,7 @@ Optional
 
    a. Copy the jars from /lib/jodconverters into your CFML engine's classpath. 
 	 
-   b. Current configuration runs OpenOffice service on localhost port 8100. Adjust settings in /thumbnailmagic/system/oolib.cfc.
+   b. Current configuration runs OpenOffice service on localhost port 2002. Adjust settings in /thumbnailmagic/system/oolib.cfc.
 
 ###Usage
 
@@ -79,9 +80,9 @@ Optional
    You only need these setting in your Coldbox configuration:
    
 				thumbnailPath = "<local path to thumbnails>", 
-				pathToOO = "<local path to soffice binary>", // OS X - /Applications/OpenOffice.app/Contents/MacOS/soffice
-				ooHost = "localhost",
-				ooPort = 8100
+				pathToOO = "<local path to soffice binary>", // OS X - /Applications/OpenOffice.app/Contents
+				ooHost = "localhost", // at current, only localhost is supported as OO host
+				ooPort = 2002
   
 Generating thumbnails:
 
