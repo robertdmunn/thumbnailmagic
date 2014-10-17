@@ -69,6 +69,15 @@ Optional
 1. Instantiate the service:
 
    service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ) );
+   
+   or passing in htmlStlye argument to render HTML files as layout rather than source:
+   
+   service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ), options = { htmlStyle: "rendered" } );
+   
+   or overriding the default port and path for OpenOffice
+   
+   service = new thumbnailmagic.ThumbnailService( thumbnailPath = expandPath( "./tiles/" ), options = { ooPort: 8000, ooPath: "/usr/local/openoffice"  } );
+    
 
 2. Configuring for Coldbox
 
@@ -153,7 +162,20 @@ for PDFs:
    		filepath = expandPath( "./" ), 
    		filename = "Open Source.pdf", 
    		options = { pages : "1,3,5-6" } );
-   	
+
+for HTML files as source: 
+
+	htmlthumbnail =  service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "index.html" );	 
+ 
+for HTML files as rendered HTML: 
+
+	htmlthumbnail =  service.createThumbnail( 
+    	filepath = expandPath( "./" ), 
+    	filename = "index.html",
+    	htmlStyle = "rendered" );	 
+    	   	
 for plain text files:
 
     textthumbnail = service.createThumbnail( 

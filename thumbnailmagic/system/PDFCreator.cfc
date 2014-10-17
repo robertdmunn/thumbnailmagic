@@ -12,16 +12,15 @@
 	<cffunction name="createPDF" access="public" output="false" returntype="string">
 		<cfargument name="source" type="string" required="true" />
 		<cfargument name="contenttype" type="string" required="true" />
-
+		<cfargument name="htmlStyle" type="string" required="false" />
+		<cfset local.htmlStyle = ( isNull( arguments.htmlStyle ) ? getGlobals().getHTMLStyle() : arguments.htmlStyle ) />
 		<cfset local.id = createUUID() />
 		<cfdocument filename="#getGlobals().getThumbnailPath()##local.id#.pdf" format="PDF" overwrite="true">
 		<cfoutput>
-			<cfif arguments.contenttype eq "text/html">
-			#source#
-			<!--- <cfelseif arguments.contenttype contains "xml">
-			<pre>#htmleditformat(source)#</pre> --->
+			<cfif arguments.contenttype eq "text/html" and local.htmlStyle eq "rendered">
+				#arguments.source#
 			<cfelse>
-			<pre>#htmleditformat(source)#</pre>
+				<pre>#htmleditformat( arguments.source )#</pre>
 			</cfif>
 		</cfoutput>
 		</cfdocument>

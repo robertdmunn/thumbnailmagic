@@ -5,7 +5,7 @@ component {
 	 *
 	 * copyright 2014 Robert Munn
 	 *
-	 * version: 0.9.2
+	 * version: 0.9.3
 	 *
 	 * author: Robert Munn robert.d.munn@gmail.com
 	 *
@@ -13,10 +13,10 @@ component {
 	 *
 	 **/
 
-	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options default = {} ){
+	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options={} ){
 		variables.instance = {};
 
-		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = arguments.thumbnailPath ) );
+		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = arguments.thumbnailPath, htmlStyle = ( isNull( arguments.options.htmlStyle ) ? javacast( "null", "" ) : arguments.options.htmlStyle  ) ) );
 		setPDFCreator();
 		setHTTPUtil();
 		_setCreators( options = arguments.options );
@@ -78,7 +78,13 @@ component {
 				// make a pdf and continue on to thumbnail the pdf
 				//if we're using a uri we already have the source
 				if( isNull( local.source ) ) local.source = fileRead( arguments.filepath & arguments.filename );
-				arguments.filename = getPDFCreator().createPDF( source = local.source, contenttype = local.contentType );
+				// pass in htmlStyle argument if it was specified
+				if( NOT isNull( local.args.htmlStyle ) ){
+					arguments.filename = getPDFCreator().createPDF( source = local.source, contenttype = local.contentType, htmlStyle = local.args.htmlStyle );
+				}else{
+					arguments.filename = getPDFCreator().createPDF( source = local.source, contenttype = local.contentType );
+				}
+
 				local.tempfile = arguments.filename;
 				arguments.filepath = getGlobals().getThumbnailPath();
 

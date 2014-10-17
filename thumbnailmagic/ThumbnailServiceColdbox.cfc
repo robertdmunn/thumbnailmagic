@@ -1,8 +1,8 @@
 component extends="thumbnailmagic.ThumbnailService"{
 	property name="thumbNailPath" inject="coldbox:setting:thumbNailPath";
-	property name="pathToOO" inject="coldbox:setting:pathToOO";
+	property name="ooPath" inject="coldbox:setting:ooPath";
 	property name="ooHost" inject="coldbox:setting:ooHost";
-	property name="ooPort" inject="coldbox:setting:ooPort";		
+	property name="ooPort" inject="coldbox:setting:ooPort";
 
 	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options default = {} ){
 		variables.instance = {};
@@ -11,7 +11,7 @@ component extends="thumbnailmagic.ThumbnailService"{
 	}
 
 	public void function configure() onDIComplete{
-		
+
 		setGlobals( createObject( "thumbnailmagic.system.Globals" ).init( thumbnailPath = variables.thumbnailPath ) );
 		setPDFCreator();
 		setHTTPUtil();
