@@ -1,16 +1,16 @@
 component {
 
 	/*
-	 * ThumbnailMagic 
-	 * 
+	 * ThumbnailMagic
+	 *
 	 * copyright 2014 Robert Munn
-	 * 
-	 * version: 0.9.1
-	 * 
+	 *
+	 * version: 0.9.2
+	 *
 	 * author: Robert Munn robert.d.munn@gmail.com
-	 * 
+	 *
 	 * license: MIT license
-	 * 
+	 *
 	 **/
 
 	public thumbnailmagic.ThumbnailService function init( string thumbnailPath, struct options default = {} ){
@@ -20,7 +20,7 @@ component {
 		setPDFCreator();
 		setHTTPUtil();
 		_setCreators( options = arguments.options );
-		
+
 		return this;
 	}
 
@@ -35,15 +35,15 @@ component {
 		//local.paths[3] = expandPath( "/thumbnailmagic/lib/apache-xml-xalan.jar" );
 		//local.loader = createObject("component", "javaloader.JavaLoader").init( local.paths );
 		//local.Tika = local.loader.create( "org.apache.tika.Tika" ).init();/
-		
+
 		local.args = {};
 		// OO doc option
 		local.args.extract = true;
 
 		if( not isNull( arguments.options ) )
-			structAppend( local.args, setOptions( arguments.options ) );	
-					
-		//flag to use 
+			structAppend( local.args, setOptions( arguments.options ) );
+
+		//flag to use
 		if( not isNull( arguments.uri ) ){
 			local.contentType = "uri";
 			local.args.filepath = getGlobals().getThumbnailPath();
@@ -53,7 +53,12 @@ component {
 		}
 
 		local.thumbnailcreator = getCreator( creatorType = "image" );
- 
+
+		// if the mime type is a text/* mime type, set it to html,xml or plain so it gets processed
+		if( gettoken( trim( local.contentType ), 1, "/" ) eq "text" ){
+			local.contentType = setTextMimeType( trim( local.contentType ) );
+		}
+
 		switch( trim( local.contentType ) ){
 			case "image/gif":
 			case "image/png":
@@ -68,8 +73,6 @@ component {
 				break;
 			case "text/plain":
 			case "text/html":
-			case "text/css":
-			case "text/csv":
 			case "text/xml":
 			case "application/xml":
 				// make a pdf and continue on to thumbnail the pdf
@@ -78,7 +81,7 @@ component {
 				arguments.filename = getPDFCreator().createPDF( source = local.source, contenttype = local.contentType );
 				local.tempfile = arguments.filename;
 				arguments.filepath = getGlobals().getThumbnailPath();
-				
+
 			case "application/pdf":
 				local.creator =  getCreator( creatorType = "PDF" );
 				local.args.filepath = getGlobals().getThumbnailPath();
@@ -96,6 +99,7 @@ component {
 					return local.creator.createThumbnail( argumentcollection = arguments );
 					break;
 				}
+			case "application/rtf":
 			case "application/msword":
 			case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
 			case "application/vnd.ms-excel":
@@ -103,7 +107,7 @@ component {
 				// we need to generate a pdf to make thumbnails
 				local.overwrite = true;
 				if( NOT isNull( arguments.options.overwrite ) )
-					local.overwrite = ( local.overwrite eq "overwrite" ? true : false );	
+					local.overwrite = ( local.overwrite eq "overwrite" ? true : false );
 				arguments.filename = listlast( local.creator.convert( filepath = arguments.filepath, filename = arguments.filename, overwrite = local.overwrite ), "\/" );
 				arguments.filepath = getGlobals().getThumbnailPath();
 				// re-call the function sending in the pdf as the argument
@@ -111,7 +115,7 @@ component {
 				local.results = createThumbnail( argumentcollection = arguments );
 				fileDelete( arguments.filepath & arguments.filename );
 				return local.results;
-				break;	
+				break;
 			case "video/mp4":
 			case "video/avi":
 			case "video/mov":
@@ -122,7 +126,7 @@ component {
 				local.creator =  getCreator( creatorType = "video" );
 				local.args.filepath = getGlobals().getThumbnailPath();
 				local.filename = local.creator.createThumbnail( argumentcollection = arguments );
-				break;			
+				break;
 
 			default:
 				if( isNull( local.contentType ) ){
@@ -138,14 +142,14 @@ component {
 			local.results = [];
 			for( local.i = 1; local.i lte arraylen( local.filename ); local.i++ ){
 				local.args.filename = local.filename[ local.i ];
-				local.results[ local.i ] = local.thumbnailcreator.createThumbnail( argumentcollection = local.args )[1];							
+				local.results[ local.i ] = local.thumbnailcreator.createThumbnail( argumentcollection = local.args )[1];
 			}
-			
+
 			//clean up temp files
 			if( not isNull( local.tempfile ) ){
 				fileDelete( getGlobals().getThumbnailPath() & local.tempfile );
 			}
-			
+
 			return local.results;
 		}catch( e ){
 			writeoutput( local.contentType & "<br/><br/> " & e.message & e.detail );
@@ -158,7 +162,7 @@ component {
 
 	public thumbnailmagic.system.Globals function getGlobals(){
 		return variables.instance.globals;
-	}	
+	}
 
 	public void function setPDFCreator(){
 		variables.instance.PDFCreator = createObject( "thumbnailmagic.system.PDFCreator" ).init( globals = getGlobals() );
@@ -167,10 +171,10 @@ component {
 	public thumbnailmagic.system.PDFCreator function getPDFCreator(){
 		return variables.instance.PDFCreator;
 	}
-	
+
 	public thumbnailmagic.system.HTTPUtil function getHTTPUtil(){
 		return variables.instance.HTTPUtil;
-	}	
+	}
 
 	public void function setHTTPUtil(){
 		variables.instance.HTTPUtil = createObject( "thumbnailmagic.system.HTTPUtil" ).init( globals = getGlobals() );
@@ -197,7 +201,7 @@ component {
 		}else{
 			local.path = createObject( "java", "java.nio.file.Paths" ).get( arguments.filepath, [arguments.filename] );
 			local.Files = createObject( "java", "java.nio.file.Files" );
-			local.contentType = local.Files.probeContentType( local.path );	
+			local.contentType = local.Files.probeContentType( local.path );
 		}
 		return local.contentType;
 	}
@@ -206,9 +210,19 @@ component {
 		local.options = {};
 		if( not isNull( arguments.options ) ){
 			for( local.key in arguments.options ){
-				local.options[ local.key ] =  arguments.options[ local.key ]; 
+				local.options[ local.key ] =  arguments.options[ local.key ];
 			}
 		}
 		return local.options;
-	}	
+	}
+
+	private string function setTextMimeType( required string mimetype ){
+		local.types = "html,xml";
+		local.subtype = gettoken( arguments.mimetype, 2, "/");
+		if( NOT listfind( local.subtype, local.types) ){
+			return "text/plain";
+		}else{
+			return arguments.mimetype;
+		}
+	}
 }
