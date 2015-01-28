@@ -158,7 +158,7 @@ component {
 
 			return local.results;
 		}catch( e ){
-			writeoutput( local.contentType & "<br/><br/> " & e.message & e.detail );
+			writeoutput( local.contentType & '<br/><br/>' & e.message & e.detail );
 		}
 	}
 
@@ -200,16 +200,10 @@ component {
 	}
 
 	private string function _getContentType( required string filepath, required string filename ){
-		//probeContentType is broken in OS X
-		if( getGlobals().getOS() eq "Mac OS X" ){
+			// Tika seems to be more reliable than probeContentType in Java nio
 			local.Tika = createObject( "java", "org.apache.tika.Tika" ).init();
 			local.contentType = local.Tika.detect( arguments.filepath & arguments.filename );
-		}else{
-			local.path = createObject( "java", "java.nio.file.Paths" ).get( arguments.filepath, [arguments.filename] );
-			local.Files = createObject( "java", "java.nio.file.Files" );
-			local.contentType = local.Files.probeContentType( local.path );
-		}
-		return local.contentType;
+			return local.contentType;
 	}
 
 	private struct function setOptions( required struct options ){
